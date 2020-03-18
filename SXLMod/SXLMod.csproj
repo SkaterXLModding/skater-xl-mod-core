@@ -58,6 +58,18 @@
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityModManager">
       <HintPath>C:\Users\amato\Desktop\UnityModManager\UnityModManager.dll</HintPath>
       <Private>False</Private>
@@ -67,6 +79,7 @@
     <Compile Include="Customization\SXLClothing.cs" />
     <Compile Include="Customization\SXLCustomization.cs" />
     <Compile Include="Customization\SXLSkateboard.cs" />
+    <Compile Include="Debug\SXLConsole.cs" />
     <Compile Include="Initialization\SXLLoad.cs" />
     <Compile Include="Initialization\SXLModManager.cs" />
     <Compile Include="IO\SXLFile.cs" />
