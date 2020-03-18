@@ -32,7 +32,6 @@ namespace SXLMod
             {
                 ObjImporter importer = new ObjImporter();
                 mesh = importer.ImportFile(filePath);
-                Debug.Log(mesh);
             }
 
             return mesh;
