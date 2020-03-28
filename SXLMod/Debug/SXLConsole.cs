@@ -31,6 +31,7 @@ namespace SXLMod.Debug
         private void Start()
         {
             this.consoleCanvas.gameObject.SetActive(false);
+            this.CreateBaseCommands();
         }
 
         private void Update()
@@ -48,10 +49,25 @@ namespace SXLMod.Debug
             }
         }
 
-        private void CreateCommands()
+        private void OnEnable()
+        {
+            Application.logMessageReceived += HandleLog;
+        }
+
+        private void OnDisable()
+        {
+            Application.logMessageReceived -= HandleLog;
+        }
+
+        private void HandleLog(string logMessage, string stackTrace, LogType type)
+        {
+            AddMessageToConsole($"[{type.ToString()}] {logMessage}\n{stackTrace.ToString()}");
+        }
+
+        private void CreateBaseCommands()
         {
             new SXLConsoleCommand("Quit", "quit", "Quit SkaterXL", "<command>", new Callback(() => Application.Quit()));
-            new SXLConsoleCommand("Test", "test", "Test Console Command", "<command>", new Callback(() => SXLDeveloperConsole.Log("This is a test Console Command")));
+            new SXLConsoleCommand("Test", "test", "Test Console Command", "<command>", new Callback(() => UnityEngine.Debug.Log("This is a test Console Command")));
         }
 
         public static void AddCommandsToConsole(string name, SXLConsoleCommand command)
@@ -67,18 +83,13 @@ namespace SXLMod.Debug
             this.consoleText.text += $"{message}\n";
         }
 
-        public static void Log(string message)
-        {
-            SXLDeveloperConsole.Instance.consoleText.text += $"{message}\n";
-        }
-
         private void ParseInput(string input)
         {
             string[] _input = input.Split(null);
 
             if (_input.Length == 0 || _input == null || !commands.ContainsKey(_input[0]))
             {
-                AddMessageToConsole($"{input} is not recognized...");
+                UnityEngine.Debug.Log($"{input} is not recognized...");
                 return;
             }
             else
