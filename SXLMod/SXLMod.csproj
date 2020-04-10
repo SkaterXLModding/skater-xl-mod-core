@@ -58,8 +58,13 @@
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.UI.dll</HintPath>
@@ -79,11 +84,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console\Commands\SXLCoreCommands.cs" />
+    <Compile Include="Console\Commands\SXLPerformanceCommands.cs" />
+    <Compile Include="Console\Commands\SXLConsoleCommands.cs" />
     <Compile Include="Customization\SXLClothing.cs" />
     <Compile Include="Customization\SXLCustomization.cs" />
     <Compile Include="Customization\SXLSkateboard.cs" />
-    <Compile Include="Debug\SXLConsole.cs" />
-    <Compile Include="Debug\SXLConsoleUI.cs" />
+    <Compile Include="Console\SXLConsole.cs" />
+    <Compile Include="Console\SXLConsoleLogic.cs" />
+    <Compile Include="Console\SXLConsoleShell.cs" />
+    <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Initialization\SXLLoad.cs" />
     <Compile Include="Initialization\SXLModManager.cs" />
     <Compile Include="IO\SXLFile.cs" />
