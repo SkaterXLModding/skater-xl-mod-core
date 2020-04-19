@@ -46,6 +46,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
+      <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
@@ -60,6 +64,10 @@
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
@@ -85,14 +93,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console\Commands\SXLCoreCommands.cs" />
+    <Compile Include="Console\Commands\SXLDebugCommands.cs" />
     <Compile Include="Console\Commands\SXLPerformanceCommands.cs" />
     <Compile Include="Console\Commands\SXLConsoleCommands.cs" />
+    <Compile Include="Console\Commands\SXLPlayerCommands.cs" />
     <Compile Include="Customization\SXLClothing.cs" />
     <Compile Include="Customization\SXLCustomization.cs" />
     <Compile Include="Customization\SXLSkateboard.cs" />
     <Compile Include="Console\SXLConsole.cs" />
     <Compile Include="Console\SXLConsoleLogic.cs" />
     <Compile Include="Console\SXLConsoleShell.cs" />
+    <Compile Include="Extensions\SXLExtensions.cs" />
     <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Initialization\SXLLoad.cs" />
     <Compile Include="Initialization\SXLModManager.cs" />

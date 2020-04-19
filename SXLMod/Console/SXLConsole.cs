@@ -2,8 +2,8 @@
 using System.Collections;
 
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 namespace SXLMod.Console
 {
@@ -72,6 +72,18 @@ namespace SXLMod.Console
                     this._performance = new SXLConsolePerformance();
                 }
                 return this._performance;
+            }
+        }
+
+        private SXLConsoleDebug _debug;
+
+        public SXLConsoleDebug Debug {
+            get {
+                if (this._debug == null)
+                {
+                    this._debug = new SXLConsoleDebug();
+                }
+                return this._debug;
             }
         }
 
@@ -150,11 +162,6 @@ namespace SXLMod.Console
             }
         }
 
-        public void ToggleFPS()
-        {
-
-        }
-
         private void Awake()
         {
             if (Instance != null)
@@ -163,6 +170,7 @@ namespace SXLMod.Console
             }
             Instance = this;
         }
+        
 
         // Monobehaviour
         void OnEnable()
@@ -212,6 +220,7 @@ namespace SXLMod.Console
         void OnGUI()
         {
             this.Performance.DrawUI();
+            this.Debug.DrawUI();
 
             if (IsClosed)
             {
