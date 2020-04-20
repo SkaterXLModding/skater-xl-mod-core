@@ -14,7 +14,7 @@ namespace SXLMod.Console
         private bool _memory = false;
         private bool _physics = false;
         private bool _lighting = false;
-        private bool _visibleRenderer = false;
+        private bool _actors = false;
         private Rect perfWindow;
         private GUIStyle perfStyle;
         private GUIStyle labelStyle;
@@ -24,44 +24,34 @@ namespace SXLMod.Console
             this.SetupUI();
         }
 
-        public void ToggleFPS()
-        {
-            this._fps = !this._fps;
-        }
-
-        public void ToggleSystemInfo()
-        {
-            this._system = !this._system;
-        }
-
-        public void ToggleMemoryInfo()
-        {
-            this._memory = !this._memory;
-        }
-
-        public void ToggleVisibleRenderer()
-        {
-            this._visibleRenderer = !this._visibleRenderer;
-        }
-
-        public void TogglePhysicsInfo()
-        {
-            this._physics = !this._physics;
-        }
-
-        public void ToggleLightingInfo()
-        {
-            this._lighting = !this._lighting;
-        }
-
-        public void EnableDisable(bool enabled)
+        public void ToggleFPS(bool enabled)
         {
             this._fps = enabled;
+        }
+
+        public void ToggleSystemInfo(bool enabled)
+        {
             this._system = enabled;
+        }
+
+        public void ToggleMemoryInfo(bool enabled)
+        {
             this._memory = enabled;
+        }
+
+        public void ToggleActorInfo(bool enabled)
+        {
+            this._actors = enabled;
+        }
+
+        public void TogglePhysicsInfo(bool enabled)
+        {
             this._physics = enabled;
+        }
+
+        public void ToggleLightingInfo(bool enabled)
+        {
             this._lighting = enabled;
-            this._visibleRenderer = enabled;
         }
 
         public void SetupUI()
@@ -146,7 +136,7 @@ namespace SXLMod.Console
                 GUILayout.Label($"<b>LIGHTING</b>\nTOTAL: {lights.Length}\nREALTIME: {realtime}\nMIXED: {mixed}\nBAKED: {baked}", this.labelStyle);
                 GUILayout.Space(20f);
             }
-            if (this._visibleRenderer)
+            if (this._actors)
             {
                 LODGroup[] lodGroups = Object.FindObjectsOfType<LODGroup>();
                 Renderer[] sceneRenderers = Object.FindObjectsOfType<Renderer>();
@@ -169,48 +159,99 @@ namespace SXLMod.Console
 
     class SXLPerformanceCommands
     {
-        [RegisterCommand(Name = "STAT", Help = "Display Status Commands", Hint = "<FPS | SYSTEM | MEMORY | PHYSICS| LIGHTING | ACTORS | ALL | NONE>", ArgMax = 1)]
-        static void CommandStat(CommandArg[] args)
+        [RegisterCommand(Name = "stat_fps", Help = "Display FPS Stats", Hint = "stat_fps <0|1>")]
+        static void CommandStatFPS(CommandArg[] args)
         {
-            if (args.Length == 0)
+            switch (args[0].Int)
             {
-                return;
+                case 0:
+                    SXLConsole.Instance.Performance.ToggleFPS(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Performance.ToggleFPS(true);
+                    break;
+                default:
+                    break;
             }
-            foreach (var a in args)
+        }
+
+        [RegisterCommand(Name = "stat_system", Help = "Display System Information", Hint = "stat_system <0|1>")]
+        static void CommandStatSystem(CommandArg[] args)
+        {
+            switch (args[0].Int)
             {
-                string arg = a.ToString().ToLower();
-                if (arg == "fps")
-                {
-                    SXLConsole.Instance.Performance.ToggleFPS();
-                }
-                else if (arg == "system")
-                {
-                    SXLConsole.Instance.Performance.ToggleSystemInfo();
-                }
-                else if (arg == "actors")
-                {
-                    SXLConsole.Instance.Performance.ToggleVisibleRenderer();
-                }
-                else if (arg == "memory")
-                {
-                    SXLConsole.Instance.Performance.ToggleMemoryInfo();
-                }
-                else if (arg == "physics")
-                {
-                    SXLConsole.Instance.Performance.TogglePhysicsInfo();
-                }
-                else if (arg == "lighting")
-                {
-                    SXLConsole.Instance.Performance.ToggleLightingInfo();
-                }
-                else if (arg == "all")
-                {
-                    SXLConsole.Instance.Performance.EnableDisable(true);
-                }
-                else if (arg == "none")
-                {
-                    SXLConsole.Instance.Performance.EnableDisable(false);
-                }
+                case 0:
+                    SXLConsole.Instance.Performance.ToggleSystemInfo(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Performance.ToggleSystemInfo(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        [RegisterCommand(Name = "stat_memory", Help = "Display Memory Stats", Hint = "stat_memory <0|1>")]
+        static void CommandStatMemory(CommandArg[] args)
+        {
+            switch (args[0].Int)
+            {
+                case 0:
+                    SXLConsole.Instance.Performance.ToggleMemoryInfo(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Performance.ToggleMemoryInfo(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        [RegisterCommand(Name = "stat_physics", Help = "Display Physics Stats", Hint = "stat_physics <0|1>")]
+        static void CommandStatPhysics(CommandArg[] args)
+        {
+            switch (args[0].Int)
+            {
+                case 0:
+                    SXLConsole.Instance.Performance.TogglePhysicsInfo(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Performance.TogglePhysicsInfo(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        [RegisterCommand(Name = "stat_lighting", Help = "Display Lighting Stats", Hint = "stat_lighting <0|1>")]
+        static void CommandStatLighting(CommandArg[] args)
+        {
+            switch (args[0].Int)
+            {
+                case 0:
+                    SXLConsole.Instance.Performance.ToggleLightingInfo(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Performance.ToggleLightingInfo(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        [RegisterCommand(Name = "stat_actors", Help = "Display Actor Stats", Hint = "stat_actors <0|1>")]
+        static void CommandStatActors(CommandArg[] args)
+        {
+            switch (args[0].Int)
+            {
+                case 0:
+                    SXLConsole.Instance.Performance.ToggleActorInfo(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Performance.ToggleActorInfo(true);
+                    break;
+                default:
+                    break;
             }
         }
     }

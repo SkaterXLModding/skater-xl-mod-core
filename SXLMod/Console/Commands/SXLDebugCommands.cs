@@ -47,9 +47,9 @@ namespace SXLMod.Console
             this.labelStyle.normal.background = l;
         }
 
-        public void ToggleTrickInfo()
+        public void ToggleTrickInfo(bool enabled)
         {
-            this._trick = !this._trick;
+            this._trick = enabled;
         }
 
         private void DrawDebugUI(int windowID)
@@ -114,18 +114,16 @@ namespace SXLMod.Console
 
     class SXLDebugCommands
     {
-        [RegisterCommand(Name = "DEBUG", Help = "Display Debug Commands", Hint = "<TRICK> <0 | 1>", ArgMin = 1, ArgMax = 1)]
+        [RegisterCommand(Name = "d_trick", Help = "Debug Tricks", Hint = "d_trick <0 | 1>", ArgMin = 1, ArgMax = 1)]
         static void CommandDebug(CommandArg[] args)
         {
-            if (args.Length != 1)
+            switch (args[0].Int)
             {
-                return;
-            }
-            
-            switch (args[0].ToString().ToLower())
-            {
-                case "trick":
-                    SXLConsole.Instance.Debug.ToggleTrickInfo();
+                case 0:
+                    SXLConsole.Instance.Debug.ToggleTrickInfo(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Debug.ToggleTrickInfo(true);
                     break;
                 default:
                     break;

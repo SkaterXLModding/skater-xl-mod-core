@@ -8,13 +8,13 @@ namespace SXLMod.Console
 {
     class SXLCoreCommands
     {
-        [RegisterCommand(Name = "CLEAR", Help = "Clear the console", ArgMax = 0)]
+        [RegisterCommand(Name = "clear", Help = "Clear the console", Hint = "clear", ArgMax = 0)]
         static void CommandClear(CommandArg[] args)
         {
             SXLConsole.Buffer.Clear();
         }
 
-        [RegisterCommand(Name = "QUIT", Help = "Quit Application", ArgMax = 0)]
+        [RegisterCommand(Name = "quit", Help = "Quit Application", Hint = "quit", ArgMax = 0)]
         static void CommandQuit(CommandArg[] args)
         {
 #if UNITY_EDITOR
@@ -24,14 +24,18 @@ namespace SXLMod.Console
             Application.Quit();
         }
 
-        [RegisterCommand(Name = "HELP", Help = "Display command context", Hint = "<COMMAND>", ArgMax = 1)]
+        [RegisterCommand(Name = "help", Help = "Display command context", Hint = "help <string>", ArgMax = 1)]
         static void CommandHelp(CommandArg[] args)
         {
             if (args.Length == 0)
             {
+                SXLConsole.Log("===============================================");
+                SXLConsole.Log("=============== COMMANDS / HELP ===============");
+                SXLConsole.Log("===============================================");
+
                 foreach (var command in SXLConsole.Shell.Commands)
                 {
-                    SXLConsole.Log("{0}: {1}", command.Key.PadRight(16), command.Value.help);
+                    SXLConsole.Log("<b>{0}</b>: <i>{1}</i>", command.Value.hint.ToLower().PadRight(30), command.Value.help);
                 }
                 return;
             }
