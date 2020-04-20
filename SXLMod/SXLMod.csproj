@@ -95,7 +95,6 @@
     <Compile Include="Console\Commands\SXLCoreCommands.cs" />
     <Compile Include="Console\Commands\SXLDebugCommands.cs" />
     <Compile Include="Console\Commands\SXLPerformanceCommands.cs" />
-    <Compile Include="Console\Commands\SXLConsoleCommands.cs" />
     <Compile Include="Console\Commands\SXLPlayerCommands.cs" />
     <Compile Include="Customization\SXLClothing.cs" />
     <Compile Include="Customization\SXLCustomization.cs" />
@@ -110,6 +109,11 @@
     <Compile Include="IO\SXLFile.cs" />
     <Compile Include="IO\SXLObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\SXLSingleton.cs" />
     <Compile Include="Utilities\SXLSkinning.cs" />
   </ItemGroup>
@@ -118,6 +122,15 @@
       <Project>{5fe77eae-abdb-4ffd-959f-5c513bd04a5c}</Project>
       <Name>SXLUnityCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Hack-Regular.ttf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,7 +3,8 @@ using System.Collections;
 
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
+
+using SXLMod;
 
 namespace SXLMod.Console
 {
@@ -193,7 +194,16 @@ namespace SXLMod.Console
         {
             if (this.consoleFont == null)
             {
-                this.consoleFont = Font.CreateDynamicFontFromOSFont("Arial", 16);
+                try
+                {
+                    byte[] fontData = SXLFile.LoadDLLResourceToBytes("Resources.Hack-Regular.ttf");
+                    UnityEngine.Debug.Log(fontData);
+                    this.consoleFont = Font.CreateDynamicFontFromOSFont("Courier New", 16);
+                }
+                catch
+                {
+                    this.consoleFont = Font.CreateDynamicFontFromOSFont("Courier New", 16);
+                }
             }
 
             this.commandText = "";
