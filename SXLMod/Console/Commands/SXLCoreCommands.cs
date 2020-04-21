@@ -29,9 +29,9 @@ namespace SXLMod.Console
         {
             if (args.Length == 0)
             {
-                SXLConsole.Log("===============================================");
-                SXLConsole.Log("=============== COMMANDS / HELP ===============");
-                SXLConsole.Log("===============================================");
+                SXLConsole.Log("<b>===============================================</b>");
+                SXLConsole.Log("<b>=============== COMMANDS / HELP ===============</b>");
+                SXLConsole.Log("<b>===============================================</b>");
 
                 foreach (var command in SXLConsole.Shell.Commands)
                 {
