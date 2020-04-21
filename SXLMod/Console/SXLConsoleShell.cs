@@ -281,6 +281,7 @@ namespace SXLMod.Console
                 max_arg_count = max_args,
                 help = help,
                 hint = hint
+
             };
 
             AddCommand(name, info);

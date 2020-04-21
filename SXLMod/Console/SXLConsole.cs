@@ -18,7 +18,7 @@ namespace SXLMod.Console
     public class SXLConsole : MonoBehaviour
     {
         // Window
-        float maxHeight = 0.7f;
+        float maxHeight = 0.8f;
         float smallConsoleRatio = 0.33f;
         float toggleSpeed = 720f;
         Rect window;
@@ -100,6 +100,11 @@ namespace SXLMod.Console
 
         public bool IsClosed {
             get { return this.state == SXLConsoleState.CLOSED && Mathf.Approximately(currentOpenTime, openTarget); }
+        }
+
+        public void ForceCloseConsole()
+        {
+            this.SetState(SXLConsoleState.CLOSED);
         }
 
         public static void Log(string format, params object[] message)
