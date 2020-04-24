@@ -3,8 +3,7 @@ using System.Collections;
 
 using UnityEngine;
 using UnityEngine.Assertions;
-
-using SXLMod;
+using UnityEngine.SceneManagement;
 
 namespace SXLMod.Console
 {
@@ -59,7 +58,7 @@ namespace SXLMod.Console
         string cachedCommandText;
         Vector2 scrollPosition;
         GUIStyle windowStyle;
-        GUIStyle labelStyle;
+        GUIStyle messageStyle;
         GUIStyle inputStyle;
         Texture2D backgroundTexture;
         Texture2D inputBackgroundTexture;
@@ -87,6 +86,12 @@ namespace SXLMod.Console
                 return this._debug;
             }
         }
+
+        // Screen Stats
+        Rect debugWindow;
+        Rect debugPerfWindow;
+        GUIStyle debugWindowStyle;
+        GUIStyle labelStyle;
 
         public static SXLConsole Instance { get; private set; }
         public static CommandLog Buffer { get; private set; }
@@ -175,6 +180,7 @@ namespace SXLMod.Console
                 return;
             }
             Instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         
 
@@ -199,16 +205,7 @@ namespace SXLMod.Console
         {
             if (this.consoleFont == null)
             {
-                try
-                {
-                    byte[] fontData = SXLFile.LoadDLLResourceToBytes("Resources.Hack-Regular.ttf");
-                    UnityEngine.Debug.Log(fontData);
-                    this.consoleFont = Font.CreateDynamicFontFromOSFont("Courier New", 16);
-                }
-                catch
-                {
-                    this.consoleFont = Font.CreateDynamicFontFromOSFont("Courier New", 16);
-                }
+                this.consoleFont = Font.CreateDynamicFontFromOSFont("Courier New", 16);
             }
 
             this.commandText = "";
@@ -232,6 +229,22 @@ namespace SXLMod.Console
             }
         }
 
+        // GUI
+
+        private void DrawDebugGUIItem(string item)
+        {
+            GUILayout.Label(item, labelStyle);
+            GUILayout.Space(20f);
+        }
+
+        private void DrawPerformanceUI(int windowID)
+        {
+            GUILayout.BeginHorizontal();
+            DrawDebugGUIItem("<b>This is a test</b>\nHope this works");
+            GUILayout.EndHorizontal();
+        }
+
+
         void OnGUI()
         {
             this.Performance.DrawUI();
@@ -248,11 +261,10 @@ namespace SXLMod.Console
             }
 
             HandleOpenness();
-            this.window = GUILayout.Window(88, window, DrawConsole, "", this.windowStyle);
+            this.window = GUILayout.Window(88, this.window, DrawConsole, "", this.windowStyle);
         }
 
         // Console Logic
-
         void SetupWindow()
         {
             this.realWindowSize = Screen.height * this.maxHeight / 3;
@@ -268,16 +280,21 @@ namespace SXLMod.Console
             this.windowStyle.padding = new RectOffset(0, 0, 4, 0);
             this.windowStyle.normal.textColor = this.foregroundColor;
             this.windowStyle.font = this.consoleFont;
+
+            //Debug
+            this.debugPerfWindow = new Rect(0, 0, Screen.width, 0f);
+            this.debugWindow = new Rect(0, Screen.height - 110f, Screen.width, 0f);
         }
+
 
         void SetupLabels()
         {
-            this.labelStyle = new GUIStyle();
-            this.labelStyle.padding = new RectOffset(4, 4, 0, 0);
-            this.labelStyle.font = this.consoleFont;
-            this.labelStyle.fixedHeight = this.consoleFont.fontSize * 1.25f;
-            this.labelStyle.normal.textColor = this.foregroundColor;
-            this.labelStyle.wordWrap = true;
+            this.messageStyle = new GUIStyle();
+            this.messageStyle.padding = new RectOffset(4, 4, 0, 0);
+            this.messageStyle.font = this.consoleFont;
+            this.messageStyle.fixedHeight = this.consoleFont.fontSize * 1.25f;
+            this.messageStyle.normal.textColor = this.foregroundColor;
+            this.messageStyle.wordWrap = true;
         }
 
         void SetupInput()
@@ -374,8 +391,8 @@ namespace SXLMod.Console
         {
             foreach (var log in Buffer.Logs)
             {
-                this.labelStyle.normal.textColor = GetLogColor(log.type);
-                GUILayout.Label(log.message, this.labelStyle);
+                this.messageStyle.normal.textColor = GetLogColor(log.type);
+                GUILayout.Label(log.message, this.messageStyle);
             }
         }
 
@@ -429,7 +446,7 @@ namespace SXLMod.Console
                 return; // At Target
             }
 
-            window = new Rect(0, this.currentOpenTime - this.realWindowSize, Screen.width, this.realWindowSize);
+            this.window = new Rect(0, this.currentOpenTime - this.realWindowSize, Screen.width, this.realWindowSize);
         }
 
         void EnterCommand()
@@ -500,6 +517,40 @@ namespace SXLMod.Console
                 default: return this.errorColor;
             }
         }
-
     }
+
+    public static class SXLConsoleUI
+    {
+        public static GUIStyle windowStyle = SetupWindowStyle();
+        public static GUIStyle labelStyle = SetupLabelStyle();
+
+        public static GUIStyle SetupWindowStyle()
+        {
+            GUIStyle style = new GUIStyle();
+            style.normal.textColor = Color.black;
+            Texture2D t = new Texture2D(1, 1);
+            t.SetPixel(0, 0, new Color(0f, 0f, 0f, 0f));
+            t.Apply();
+            style.normal.background = t;
+
+            return style;
+        }
+
+        public static GUIStyle SetupLabelStyle()
+        {
+            GUIStyle style = new GUIStyle();
+            style.normal.textColor = Color.white;
+            style.font = Font.CreateDynamicFontFromOSFont("Courier New", 14);
+            style.fontSize = 14;
+            style.stretchWidth = false;
+            style.padding = new RectOffset(8, 8, 8, 8);
+            Texture2D l = new Texture2D(1, 1);
+            l.SetPixel(0, 0, new Color(.1f, .1f, .1f));
+            l.Apply();
+            style.normal.background = l;
+
+            return style;
+        }
+    }
+
 }

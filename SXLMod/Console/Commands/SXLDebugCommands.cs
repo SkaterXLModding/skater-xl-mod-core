@@ -18,33 +18,13 @@ namespace SXLMod.Console
         private string _lastManual = "--";
         private string _lastCombo = "--";
 
-        private Rect debugWindow;
-        private GUIStyle windowStyle;
-        private GUIStyle labelStyle;
+        private bool _pState = false;
+        private string _lastState = "--";
+        private string _currentState = "--";
 
         public SXLConsoleDebug()
         {
-            this.SetupUI();
-        }
 
-        public void SetupUI()
-        {
-            this.windowStyle = new GUIStyle();
-            this.windowStyle.normal.textColor = Color.black;
-            Texture2D t = new Texture2D(1, 1);
-            t.SetPixel(0, 0, new Color(0f, 0f, 0f, 0f));
-            t.Apply();
-            this.windowStyle.normal.background = t;
-
-            this.labelStyle = new GUIStyle();
-            this.labelStyle.normal.textColor = Color.white;
-            this.labelStyle.fontSize = 14;
-            this.labelStyle.stretchWidth = false;
-            this.labelStyle.padding = new RectOffset(8, 8, 8, 8);
-            Texture2D l = new Texture2D(1, 1);
-            l.SetPixel(0, 0, new Color(.1f, .1f, .1f));
-            l.Apply();
-            this.labelStyle.normal.background = l;
         }
 
         public void ToggleTrickInfo(bool enabled)
@@ -52,7 +32,12 @@ namespace SXLMod.Console
             this._trick = enabled;
         }
 
-        private void DrawDebugUI(int windowID)
+        public void ToggleStateInfo(bool enabled)
+        {
+            this._pState = enabled;
+        }
+
+        public void DrawDebugUI(int windowID)
         {
             GUILayout.BeginHorizontal();
             if (this._trick)
@@ -99,7 +84,16 @@ namespace SXLMod.Console
                 }
                 this._lastCombo = combo.Count > 0 ? string.Join(" => ", combo) : this._lastCombo;
 
-                GUILayout.Label($"<b>TRICK DEBUG</b>\nPOP TYPE: {this._lastPop}\nLAST FLIP TRICK: {this._lastFlip}\nLAST GRIND TRICK: {this._lastGrind}\nLAST GRAB: {this._lastGrab}\nLAST SEQUENCE: {this._lastCombo}", this.labelStyle);
+                GUILayout.Label($"<b>TRICK DEBUG</b>\nPOP TYPE: {this._lastPop}\nLAST FLIP TRICK: {this._lastFlip}\nLAST GRIND TRICK: {this._lastGrind}\nLAST GRAB: {this._lastGrab}\nLAST SEQUENCE: {this._lastCombo}", SXLConsoleUI.labelStyle);
+                GUILayout.Space(20f);
+            }
+
+            if (this._pState)
+            {
+                this._lastState = this._currentState;
+                this._currentState = PlayerController.Instance.currentState;
+
+                GUILayout.Label($"<b>PLAYER</b>\nSTATE: <i>LAST</i>: {this._lastState} | <i>CURRENT</i>: {this._currentState}", SXLConsoleUI.labelStyle);
                 GUILayout.Space(20f);
             }
 
@@ -108,13 +102,13 @@ namespace SXLMod.Console
 
         public void DrawUI()
         {
-            this.debugWindow = GUILayout.Window(100, new Rect(0, Screen.height - 110f, Screen.width, 0f), this.DrawDebugUI, "", this.windowStyle);
+            GUILayout.Window(100, new Rect(0, Screen.height - 110f, Screen.width, 0f), this.DrawDebugUI, "", SXLConsoleUI.windowStyle);
         }
     }
 
     class SXLDebugCommands
     {
-        [RegisterCommand(Name = "d_trick", Help = "Debug Tricks", Hint = "d_trick <0 | 1>", ArgMin = 1, ArgMax = 1)]
+        [RegisterCommand(Name = "d_trick", Help = "Debug Tricks", Hint = "d_trick <0|1>", ArgMin = 1, ArgMax = 1)]
         static void CommandDebug(CommandArg[] args)
         {
             switch (args[0].Int)
@@ -128,6 +122,60 @@ namespace SXLMod.Console
                 default:
                     break;
             }
+        }
+
+        [RegisterCommand(Name = "d_pstate", Help = "Debug Player State", Hint = "d_pstate <0|1>", ArgMin = 1, ArgMax = 1)]
+        static void CommandPlayerState(CommandArg[] args)
+        {
+            switch (args[0].Int)
+            {
+                case 0:
+                    SXLConsole.Instance.Debug.ToggleStateInfo(false);
+                    break;
+                case 1: SXLConsole.Instance.Debug.ToggleStateInfo(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        [RegisterCommand(Name = "d_dumptextures", Help = "Dump texture data tied to Renderer objects loaded in the scene", Hint = "d_texture", ArgMax = 0)]
+        static void CommandDumpTextureData(CommandArg[] args)
+        {
+            List<System.Tuple<string, float, float>> textures = new List<System.Tuple<string, float, float>>();
+
+            foreach (Renderer r in (Renderer[])Object.FindObjectsOfType(typeof(Renderer)))
+            {
+                foreach (Material m in r.materials)
+                {
+                    string[] properties = m.GetTexturePropertyNames();
+
+                    foreach (string p in properties)
+                    {
+                        Texture t = m.GetTexture(p);
+                        if (t == null)
+                        {
+                            continue;
+                        }
+                        textures.Add(new System.Tuple<string, float, float>(t.name, t.width, t.height));
+                    }
+                }
+            }
+
+            var orderedTex = textures.Distinct().OrderBy(t => t.Item2);
+            var texCounts = orderedTex.GroupBy(t => t.Item2).ToDictionary(d => d.Key, d => d.Count());
+
+            foreach (var texture in orderedTex)
+            {
+                Debug.Log($"{texture.Item1} {texture.Item2}x{texture.Item3}");
+            }
+
+            List<string> totals = new List<string>();
+            foreach (var tuple in texCounts)
+            {
+                totals.Add($"{tuple.Key}x{tuple.Key} - {tuple.Value}");
+            }
+            Debug.Log($"<b>TOTAL</b>: {string.Join(" | ", totals)}");
         }
     }
 }

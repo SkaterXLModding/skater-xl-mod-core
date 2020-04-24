@@ -20,7 +20,7 @@ namespace SXLMod
             Cursor.visible = true;
             this.developerConsole = this.gameObject.AddComponent<SXLConsole>();
 
-            UnityEngine.Debug.Log("Created SXL Mod Manager");
+            Debug.Log("Created SXL Mod Manager");
             this._baseClothing = SXLClothing.GetCurrentPlayerGear();
         }
 
