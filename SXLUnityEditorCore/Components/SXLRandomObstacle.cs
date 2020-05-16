@@ -22,7 +22,6 @@ public class SXLRandomObstacle : MonoBehaviour
         }
     }
 
-
     private void RefreshObstacle()
     {
         if (this.obstacles.Length > 0)
