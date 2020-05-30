@@ -67,6 +67,7 @@ namespace SXLMod.Customization
 
             foreach (Tuple<CharacterGear, GameObject> gear in SXLCustomization.GetGearList())
             {
+                /* TEMPORARILY DISABLED
                 // Shoes
                 if (gear.Item1.categoryName.Equals("Shoes"))
                 {
@@ -93,6 +94,7 @@ namespace SXLMod.Customization
                 {
                     clothingSet.hat = UnityEngine.Object.Instantiate(gear.Item2.gameObject.GetComponent<SkinnedMeshRenderer>());
                 }
+                */
             }
 
             return clothingSet;

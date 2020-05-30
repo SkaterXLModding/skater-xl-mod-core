@@ -45,7 +45,7 @@ namespace SXLMod.Console
                 List<string> combo = new List<string>();
                 var manager = Traverse.Create(RunManager.Instance);
                 List<GPEvent> comboList = manager.Field("comboEvents").GetValue() as List<GPEvent>;
-
+                /* TODO: FIX TRICK FOR v0.3b
                 if (comboList != null && comboList.Count > 0)
                 {
                     foreach (GPEvent e in comboList)
@@ -86,6 +86,7 @@ namespace SXLMod.Console
 
                 GUILayout.Label($"<b>TRICK DEBUG</b>\nPOP TYPE: {this._lastPop}\nLAST FLIP TRICK: {this._lastFlip}\nLAST GRIND TRICK: {this._lastGrind}\nLAST GRAB: {this._lastGrab}\nLAST SEQUENCE: {this._lastCombo}", SXLConsoleUI.labelStyle);
                 GUILayout.Space(20f);
+                */
             }
 
             if (this._pState)

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-using SXLMod.Customization;
 using SXLMod.Console;
 
 namespace SXLMod
@@ -11,8 +10,6 @@ namespace SXLMod
         // Create Global References Here
         private SXLConsole developerConsole;
 
-        private ClothingSet _baseClothing;
-
 
         public void Create()
         {
@@ -21,7 +18,6 @@ namespace SXLMod
             this.developerConsole = this.gameObject.AddComponent<SXLConsole>();
 
             Debug.Log("Created SXL Mod Manager");
-            this._baseClothing = SXLClothing.GetCurrentPlayerGear();
         }
 
         void Update()
@@ -30,11 +26,6 @@ namespace SXLMod
             {
                 this.developerConsole.ToggleState(this.developerConsole.CurrentState);
             }
-        }
-
-        public ClothingSet GetBaseClothing()
-        {
-            return this._baseClothing;
         }
     }
 }
