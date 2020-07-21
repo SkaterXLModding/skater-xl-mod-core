@@ -42,8 +42,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>F:\Programs\Unity\2018.3.5f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>F:\Programs\Unity\2019.3.15f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.dll</HintPath>
@@ -68,6 +67,12 @@
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
       <HintPath>M:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
