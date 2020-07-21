@@ -3,7 +3,7 @@ using System.Linq;
 
 using UnityEngine;
 using UnityEngine.Profiling;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
 
 namespace SXLMod.Console
@@ -169,11 +169,11 @@ namespace SXLMod.Console
                 LODGroup[] lodGroups = Object.FindObjectsOfType<LODGroup>();
                 Renderer[] sceneRenderers = Object.FindObjectsOfType<Renderer>();
                 Renderer[] visible = sceneRenderers.Where(r => r.isVisible).ToArray();
-                DecalProjectorComponent[] decals = Object.FindObjectsOfType<DecalProjectorComponent>();
+                DecalProjector[] decals = Object.FindObjectsOfType<DecalProjector>();
 
                 Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
                 Renderer[] inFrustrum = visible.Where(v => GeometryUtility.TestPlanesAABB(planes, v.bounds) == true).ToArray();
-                int decalsInFrustrum = decals.Where(d => GeometryUtility.TestPlanesAABB(planes, new Bounds(d.gameObject.transform.position, d.m_Size)) == true).Count();
+                int decalsInFrustrum = decals.Where(d => GeometryUtility.TestPlanesAABB(planes, new Bounds(d.gameObject.transform.position, d.size)) == true).Count();
                 
                 GUILayout.Label($"<b>ACTORS</b>\nVISIBLE: {visible.Length}\nTOTAL: {sceneRenderers.Length}\nLOD GROUPS: {lodGroups.Length}\n\nDECALS: {decalsInFrustrum} / {decals.Length}", SXLConsoleUI.labelStyle);
                 GUILayout.Space(20f);
