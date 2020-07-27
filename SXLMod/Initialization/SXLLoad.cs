@@ -4,7 +4,6 @@ using Harmony12;
 using UnityModManagerNet;
 
 using SXLMod;
-using SXLUnityCore;
 
 
 namespace SXL.Main
@@ -29,7 +28,6 @@ namespace SXL.Main
             SXLRuntime.modEntry = entry;
             // HarmonyInstance.Create(entry.Info.Id).PatchAll(Assembly.GetExecutingAssembly());
 
-            SXLUnity.Init();  // Initialize the custom Unity components
             SXLModManager.Instance.Create();  // Create the Persistant Manager for runtime event handling
 
             return true;

@@ -40,6 +40,12 @@ namespace SXLMod.Console
             PlayerController.Instance.popOutMultiplier = args[0].Float;
         }
 
+        [RegisterCommand(Name = "p_position", Help = "Returns the player position as a vector", Hint = "p_position", ArgMin = 0, ArgMax = 0)]
+        static void CommandPlayerPosition(CommandArg[] args)
+        {
+            Debug.Log(PlayerController.Instance.transform.position);
+        }
+
         [RegisterCommand(Name = "p_trucks", Help = "Sets truck tightness value", Hint = "p_trucks <float>", ArgMin = 1, ArgMax = 1)]
         static void CommandTruckTightness(CommandArg[] args)
         {

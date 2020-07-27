@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SXL.Main
 {
+    /*
     [HarmonyPatch(typeof(LevelManager), "FixBrokenShader")]
     internal class SXLPatches
     {
@@ -12,4 +13,5 @@ namespace SXL.Main
             return !SXLRuntime.enabled;
         }
     }
+    */
 }

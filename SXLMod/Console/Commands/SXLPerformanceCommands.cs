@@ -58,6 +58,16 @@ namespace SXLMod.Console
             this._lighting = enabled;
         }
 
+        public void ToggleAll(bool enabled)
+        {
+            this._fps = enabled;
+            this._system = enabled;
+            this._memory = enabled;
+            this._physics = enabled;
+            this._lighting = enabled;
+            this._actors = enabled;
+    }
+
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             this.minFPS = -1f;
@@ -189,7 +199,23 @@ namespace SXLMod.Console
 
     class SXLPerformanceCommands
     {
-        [RegisterCommand(Name = "stat_fps", Help = "Display FPS Stats", Hint = "stat_fps <0|1>")]
+        [RegisterCommand(Name = "stat_all", Help = "Display all Performance Stats", Hint = "stat_all <0|1>", ArgMin = 1, ArgMax = 1)]
+        static void CommandStatAll(CommandArg[] args)
+        {
+            switch (args[0].Int)
+            {
+                case 0:
+                    SXLConsole.Instance.Performance.ToggleAll(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Performance.ToggleAll(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        [RegisterCommand(Name = "stat_fps", Help = "Display FPS Stats", Hint = "stat_fps <0|1>", ArgMin = 1, ArgMax = 1)]
         static void CommandStatFPS(CommandArg[] args)
         {
             switch (args[0].Int)
@@ -205,7 +231,7 @@ namespace SXLMod.Console
             }
         }
 
-        [RegisterCommand(Name = "stat_system", Help = "Display System Information", Hint = "stat_system <0|1>")]
+        [RegisterCommand(Name = "stat_system", Help = "Display System Information", Hint = "stat_system <0|1>", ArgMin = 1, ArgMax = 1)]
         static void CommandStatSystem(CommandArg[] args)
         {
             switch (args[0].Int)
@@ -221,7 +247,7 @@ namespace SXLMod.Console
             }
         }
 
-        [RegisterCommand(Name = "stat_memory", Help = "Display Memory Stats", Hint = "stat_memory <0|1>")]
+        [RegisterCommand(Name = "stat_memory", Help = "Display Memory Stats", Hint = "stat_memory <0|1>", ArgMin = 1, ArgMax = 1)]
         static void CommandStatMemory(CommandArg[] args)
         {
             switch (args[0].Int)
@@ -237,7 +263,7 @@ namespace SXLMod.Console
             }
         }
 
-        [RegisterCommand(Name = "stat_physics", Help = "Display Physics Stats", Hint = "stat_physics <0|1>")]
+        [RegisterCommand(Name = "stat_physics", Help = "Display Physics Stats", Hint = "stat_physics <0|1>", ArgMin = 1, ArgMax = 1)]
         static void CommandStatPhysics(CommandArg[] args)
         {
             switch (args[0].Int)
@@ -253,7 +279,7 @@ namespace SXLMod.Console
             }
         }
 
-        [RegisterCommand(Name = "stat_lighting", Help = "Display Lighting Stats", Hint = "stat_lighting <0|1>")]
+        [RegisterCommand(Name = "stat_lighting", Help = "Display Lighting Stats", Hint = "stat_lighting <0|1>", ArgMin = 1, ArgMax = 1)]
         static void CommandStatLighting(CommandArg[] args)
         {
             switch (args[0].Int)
@@ -269,7 +295,7 @@ namespace SXLMod.Console
             }
         }
 
-        [RegisterCommand(Name = "stat_actors", Help = "Display Actor Stats", Hint = "stat_actors <0|1>")]
+        [RegisterCommand(Name = "stat_actors", Help = "Display Actor Stats", Hint = "stat_actors <0|1>", ArgMin = 1, ArgMax = 1)]
         static void CommandStatActors(CommandArg[] args)
         {
             switch (args[0].Int)

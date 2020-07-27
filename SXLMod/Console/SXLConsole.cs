@@ -75,18 +75,6 @@ namespace SXLMod.Console
             }
         }
 
-        private SXLConsoleDebug _debug;
-
-        public SXLConsoleDebug Debug {
-            get {
-                if (this._debug == null)
-                {
-                    this._debug = new SXLConsoleDebug();
-                }
-                return this._debug;
-            }
-        }
-
         // Screen Stats
         Rect debugWindow;
         Rect debugPerfWindow;
@@ -248,7 +236,6 @@ namespace SXLMod.Console
         void OnGUI()
         {
             this.Performance.DrawUI();
-            this.Debug.DrawUI();
 
             if (IsClosed)
             {
