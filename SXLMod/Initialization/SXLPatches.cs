@@ -1,13 +1,17 @@
 ﻿using Harmony12;
 
+using UnityEngine;
+
 namespace SXL.Main
 {
+    /*
     [HarmonyPatch(typeof(LevelManager), "FixBrokenShader")]
     internal class SXLPatches
     {
-        private static bool Prefix()
+        static bool Prefix()
         {
             return !SXLRuntime.enabled;
         }
     }
+    */
 }
