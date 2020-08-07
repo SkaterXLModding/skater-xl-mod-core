@@ -9,6 +9,7 @@ namespace SXLMod
 {
     public static class SXLFile
     {
+        public static readonly string userModRoot = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\SkaterXL";
         public static string modResourceDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}\\Mods\\SXLMod\\Resources";
 
         public static Texture2D LoadImageFromFile(string filePath)
