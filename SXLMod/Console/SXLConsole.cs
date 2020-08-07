@@ -110,7 +110,7 @@ namespace SXLMod.Console
             Buffer.HandleLog(string.Format(format, message), type);
         }
 
-        private void SetState(SXLConsoleState newState)
+        public void SetState(SXLConsoleState newState)
         {
             this.inputFix = true;
             this.cachedCommandText = this.commandText;
