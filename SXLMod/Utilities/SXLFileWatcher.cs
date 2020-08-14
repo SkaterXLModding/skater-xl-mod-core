@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
+using HarmonyLib;
+
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-using GameManagement;
-
-using Harmony12;
 
 namespace SXLMod.Utilities
 {

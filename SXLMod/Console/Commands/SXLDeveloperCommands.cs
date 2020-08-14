@@ -32,5 +32,49 @@ namespace SXLMod.Console
                 Debug.Log($"{info.name} is not a custom map. Hot Reload is not Enabled.");
             }
         }
+
+        [RegisterCommand(Name = "dev_screenshot", Help = "Takes a screenshot of the current frame", Hint ="dev_screenshot <[opt] map>", ArgMin = 0, ArgMax = 1)]
+        static void CommandDevScreenshot(CommandArg[] args)
+        {
+
+            LevelManager manager = LevelManager.Instance;
+            string levelName = manager.currentLevel.FullName;
+            string suffix = "";
+            bool isMapCommand = false;
+
+            string screenshotRoot = $"{SXLFile.userModRoot}\\Screenshots";
+            Directory.CreateDirectory(screenshotRoot);  // Try to create folder, if it exists nothing happens.
+            
+            if (args.Length == 1)
+            {
+                if (args[0].ToString().ToLower() == "map")
+                {
+                    screenshotRoot = $"{SXLFile.userModRoot}\\Maps";
+                    isMapCommand = true;
+                }
+                else
+                {
+                    Debug.Log($"Argument {args[0].ToString()} is not a valid argument.");
+                    return;
+                }
+            }
+            else
+            {
+                DirectoryInfo d = new DirectoryInfo(screenshotRoot);
+                FileInfo[] files = d.GetFiles("*.png");
+                int fileCounter = 0;
+
+                foreach (FileInfo f in files)
+                {
+                    if (f.FullName.Contains(levelName))
+                    {
+                        fileCounter++;
+                    }
+                }
+                suffix = $"_{fileCounter}";
+            }
+
+            SXLConsole.Instance.StartCoroutine(SXLCoreUtilities.TakeDevScreenshot($"{screenshotRoot}\\{levelName}{suffix}.png", isMapCommand));
+        }
     }
 }
