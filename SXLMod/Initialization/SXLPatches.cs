@@ -1,6 +1,9 @@
-﻿using Harmony12;
+﻿using HarmonyLib;
 
 using UnityEngine;
+using UnityEngine.Rendering;
+
+using SXLMod;
 
 namespace SXL.Main
 {

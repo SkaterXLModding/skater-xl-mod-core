@@ -2,9 +2,7 @@
 using System.Linq;
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-using Harmony12;
 
 namespace SXLMod.Console
 {
