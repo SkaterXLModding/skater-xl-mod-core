@@ -38,24 +38,20 @@ namespace SXLMod
             return mesh;
         }
 
-        public static Stream LoadDLLResource(string resourceName)
+        public static byte[] LoadDLLResource(string resourceName)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             string name = $"{assembly.GetName().Name}.{resourceName}";
+            Debug.Log(assembly.GetManifestResourceNames());
             Stream resourceStream = assembly.GetManifestResourceStream(name);
-            return resourceStream;
-        }
-
-        public static Byte[] LoadDLLResourceToBytes(string resourceName)
-        {
-            Stream s = LoadDLLResource(resourceName);
-            if (s == null)
+            using (var resFilestream = resourceStream)
             {
-                return null;
+                if (resFilestream == null) return null;
+
+                byte[] ba = new byte[resFilestream.Length];
+                resFilestream.Read(ba, 0, ba.Length);
+                return ba;
             }
-            byte[] ba = new byte[s.Length];
-            s.Read(ba, 0, ba.Length);
-            return ba;
         }
 
         public static T FromByteArray<T>(byte[] data)

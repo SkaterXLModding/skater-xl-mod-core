@@ -40,6 +40,7 @@ namespace SXLMod.Console
             LevelManager manager = LevelManager.Instance;
             string levelName = manager.currentLevel.FullName;
             string suffix = "";
+            bool isMapCommand = false;
 
             string screenshotRoot = $"{SXLFile.userModRoot}\\Screenshots";
             Directory.CreateDirectory(screenshotRoot);  // Try to create folder, if it exists nothing happens.
@@ -49,6 +50,7 @@ namespace SXLMod.Console
                 if (args[0].ToString().ToLower() == "map")
                 {
                     screenshotRoot = $"{SXLFile.userModRoot}\\Maps";
+                    isMapCommand = true;
                 }
                 else
                 {
@@ -72,7 +74,7 @@ namespace SXLMod.Console
                 suffix = $"_{fileCounter}";
             }
 
-            SXLConsole.Instance.StartCoroutine(SXLCoreUtilities.TakeDevScreenshot($"{screenshotRoot}\\{levelName}{suffix}.png"));
+            SXLConsole.Instance.StartCoroutine(SXLCoreUtilities.TakeDevScreenshot($"{screenshotRoot}\\{levelName}{suffix}.png", isMapCommand));
         }
     }
 }

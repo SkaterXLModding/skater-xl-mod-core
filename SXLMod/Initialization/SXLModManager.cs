@@ -1,5 +1,12 @@
 ﻿using System.Collections;
+using System.Linq;
+using System.Reflection;
+
+using HarmonyLib;
+
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 using SXLMod.Console;
 
@@ -9,7 +16,6 @@ namespace SXLMod
     {
         // Create Global References Here
         private SXLConsole developerConsole;
-
 
         public void Create()
         {

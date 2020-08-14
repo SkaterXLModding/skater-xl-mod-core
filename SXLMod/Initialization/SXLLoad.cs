@@ -1,7 +1,11 @@
 ﻿using System.Reflection;
+using System.Linq;
 
-using Harmony12;
+using HarmonyLib;
 using UnityModManagerNet;
+
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using SXLMod;
 
@@ -10,11 +14,8 @@ namespace SXL.Main
 {
     internal static class SXLRuntime
     {
-        public static string mID;
-        public static HarmonyInstance instance;
+        public static Harmony instance;
         public static UnityModManager.ModEntry modEntry;
-
-        public static bool enabled;
 
         /// <summary>
         /// Unity Mod Manager Load function
@@ -23,34 +24,29 @@ namespace SXL.Main
         /// <returns>True on complete</returns>
         public static bool Load(UnityModManager.ModEntry entry)
         {
-            SXLRuntime.mID = entry.Info.Id;
             entry.OnToggle = SXLRuntime.OnToggle;
             SXLRuntime.modEntry = entry;
-            // HarmonyInstance.Create(entry.Info.Id).PatchAll(Assembly.GetExecutingAssembly());
-
             SXLModManager.Instance.Create();  // Create the Persistant Manager for runtime event handling
+
 
             return true;
         }
 
         public static bool OnToggle(UnityModManager.ModEntry modEntry, bool value)
         {
-            bool flag;
-            if (SXLRuntime.enabled == value)
+            if (value)
             {
-                flag = true;
+                instance = new Harmony(modEntry.Info.Id);
+                instance.PatchAll(Assembly.GetExecutingAssembly());
             }
             else
             {
-                SXLRuntime.enabled = value;
-                if (SXLRuntime.enabled)
-                {
-                    HarmonyInstance instance = HarmonyInstance.Create(modEntry.Info.Id);
-                    instance.PatchAll(Assembly.GetExecutingAssembly());
-                }
-                flag = true;
+                instance.UnpatchAll(modEntry.Info.Id);
+                var modRef = UnityEngine.Object.FindObjectOfType<SXLModManager>();
+                if (modRef != null)
+                    UnityEngine.Object.Destroy(modRef.gameObject);
             }
-            return flag;
+            return true;
         }
     }
 }
