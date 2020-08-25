@@ -3,6 +3,8 @@ using System.Linq;
 
 using UnityEngine;
 
+using SXLMod.Debugging;
+
 
 namespace SXLMod.Console
 {
@@ -46,5 +48,36 @@ namespace SXLMod.Console
             }
             Debug.Log($"<b>TOTAL</b>: {string.Join(" | ", totals)}");
         }
+
+        [RegisterCommand(Name = "d_tracemovement", Help = "Visualize player movement over time", Hint = "d_tracemovement <0|1>", ArgMin = 1, ArgMax = 1)]
+        static void CommandTraceMovement(CommandArg[] args)
+        {
+            switch(args[0].Int)
+            {
+                case 1:
+                    SXLMovementTracer tracer = SXLModManager.Instance.gameObject.AddComponent<SXLMovementTracer>();
+                    tracer.StartTracing();
+                    break;
+                case 0:
+                    SXLModManager.Instance.gameObject.GetComponent<SXLMovementTracer>().StopTracing();
+                    break;
+            }
+        }
+
+        /*
+        [RegisterCommand(Name = "d_heatmap", Help = "Generate Heatmap of gameplay", Hint = "d_heatmap <0|1>", ArgMin = 1, ArgMax = 1)]
+        static void CommandHeatmap(CommandArg[] args)
+        {
+            switch(args[0].Int)
+            {
+                case 1:
+                    SXLHeatMap heatMap = SXLModManager.Instance.gameObject.AddComponent<SXLHeatMap>();
+                    break;
+                case 0:
+                    GameObject.Destroy(SXLModManager.Instance.gameObject.GetComponent<SXLHeatMap>());
+                    break;
+            }
+        }
+        */
     }
 }

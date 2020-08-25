@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SXLMod</RootNamespace>
     <AssemblyName>SXLMod</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -45,6 +48,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="TwitchLib.Unity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\SkaterXL\Resources\TwitchLib.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
       <Private>False</Private>
@@ -138,16 +145,24 @@
     <Compile Include="Console\SXLConsoleShell.cs" />
     <Compile Include="Customization\SXLClothing.cs" />
     <Compile Include="Customization\SXLCustomization.cs" />
+    <Compile Include="Customization\SXLPlayer.cs" />
     <Compile Include="Customization\SXLSkateboard.cs" />
+    <Compile Include="Debug\SXLDebug.cs" />
+    <Compile Include="Debug\SXLMovementTracer.cs" />
     <Compile Include="Extensions\SXLExtensions.cs" />
     <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Initialization\SXLLoad.cs" />
     <Compile Include="Initialization\SXLModManager.cs" />
     <Compile Include="Initialization\SXLPatches.cs" />
+    <Compile Include="IO\SXLConfiguration.cs" />
     <Compile Include="IO\SXLFile.cs" />
     <Compile Include="IO\SXLObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\SXLRenderPipeline.cs" />
+    <Compile Include="Twitch\SXLTwitchChat.cs" />
+    <Compile Include="Twitch\SXLTwitchCommands.cs" />
+    <Compile Include="Twitch\SXLTwitchClient.cs" />
+    <Compile Include="Twitch\TwitchClientExample.cs" />
     <Compile Include="Utilities\SXLCoreUtilities.cs" />
     <Compile Include="Utilities\SXLFileWatcher.cs" />
     <Compile Include="Utilities\SXLSingleton.cs" />
