@@ -75,6 +75,7 @@ namespace SXLMod.Utilities
 
         private static void OnMapChanged(object source, FileSystemEventArgs e)
         {
+            Debug.Log($"Map Changed...{e.Name}");
             LevelManager.Instance.StartCoroutine(OnMapChanged(e.Name));
         }
 
@@ -82,6 +83,7 @@ namespace SXLMod.Utilities
         {
             LevelManager manager = LevelManager.Instance;
             string levelName = CleanLevelName(manager.currentLevel.FullName);  // Just in case this acts as a pointer.
+
             if (Path.GetFileName(name) == levelName)
             {
                 Respawn r = PlayerController.Instance.respawn;
@@ -91,20 +93,12 @@ namespace SXLMod.Utilities
                 playerRot = new Quaternion(playerXform.rotation.x, playerXform.rotation.y, playerXform.rotation.z, playerXform.rotation.w);
                 spawnPos = new Vector3(r.pin.position.x, r.pin.position.y, r.pin.position.z);
                 spawnRot = new Quaternion(r.pin.rotation.x, r.pin.rotation.y, r.pin.rotation.z, r.pin.rotation.w);
+                
+                yield return manager.StartCoroutine(manager.PlayLevelRoutine(manager.currentLevel));
 
-                AssetBundle bundle = Traverse.Create(manager).Field("loadedAssetBundle").GetValue() as AssetBundle;
-                Traverse.Create(manager).Field("loadedAssetBundle").SetValue(null);
-                if (bundle != null)
-                {
-                    // GameStateMachine.Instance.RequestPauseState();
-
-                    bundle.Unload(false);  // IF this is set to true we will crash the game!
-                    yield return manager.StartCoroutine(manager.PlayLevelRoutine(manager.currentLevel));
-
-                    r.SetSpawnPos(playerPos, playerRot);
-                    r.ForceRespawn();
-                    r.SetSpawnPos(spawnPos, spawnRot);
-                }
+                r.SetSpawnPos(playerPos, playerRot);
+                r.ForceRespawn();
+                r.SetSpawnPos(spawnPos, spawnRot);
             }
             yield return null;
         }

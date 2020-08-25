@@ -12,6 +12,12 @@ namespace SXLMod
         public static readonly string userModRoot = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\SkaterXL";
         public static string modResourceDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}\\Mods\\SXLMod\\Resources";
 
+
+        public static SXLConfiguration GetConfigFile()
+        {
+            return new SXLConfiguration($"{SXLFile.userModRoot}\\skaterxl.ini");
+        }
+
         public static Texture2D LoadImageFromFile(string filePath)
         {
             Texture2D tex = new Texture2D(2, 2);
