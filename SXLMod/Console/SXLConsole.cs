@@ -180,12 +180,15 @@ namespace SXLMod.Console
             History = new CommandHistory();
             Autocomplete = new CommandAutoComplete();
 
+            Debug.unityLogger.logEnabled = true;
+
             // Hook up unity log events
             Application.logMessageReceivedThreaded += HandleUnityLog;
         }
 
         void OnDisable()
         {
+            Debug.unityLogger.logEnabled = false;
             Application.logMessageReceivedThreaded -= HandleUnityLog;
         }
 
