@@ -21,6 +21,7 @@ namespace SXLMod.Console
         private bool _physics = false;
         private bool _lighting = false;
         private bool _actors = false;
+        private bool _camera = false;
 
         public SXLConsolePerformance()
         { 
@@ -58,6 +59,11 @@ namespace SXLMod.Console
             this._lighting = enabled;
         }
 
+        public void ToggleCameraInfo(bool enabled)
+        {
+            this._camera = enabled;
+        }
+
         public void ToggleAll(bool enabled)
         {
             this._fps = enabled;
@@ -66,6 +72,7 @@ namespace SXLMod.Console
             this._physics = enabled;
             this._lighting = enabled;
             this._actors = enabled;
+            this._camera = enabled;
     }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -188,6 +195,15 @@ namespace SXLMod.Console
                 GUILayout.Label($"<b>ACTORS</b>\nVISIBLE: {visible.Length}\nTOTAL: {sceneRenderers.Length}\nLOD GROUPS: {lodGroups.Length}\n\nDECALS: {decalsInFrustrum} / {decals.Length}", SXLConsoleUI.labelStyle);
                 GUILayout.Space(20f);
             }
+            if (this._camera)
+            {
+                Camera cam = Camera.main;
+                float fov = cam.fieldOfView;
+                Transform xform = cam.gameObject.transform;
+
+                GUILayout.Label($"<b>CAMERA</b>\nPOS: {xform.position}\nROT: {xform.rotation.eulerAngles}\nFOV: {fov}");
+                GUILayout.Space(20f);
+            }
             GUILayout.EndHorizontal();
         }
 
@@ -305,6 +321,22 @@ namespace SXLMod.Console
                     break;
                 case 1:
                     SXLConsole.Instance.Performance.ToggleActorInfo(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        [RegisterCommand(Name = "stat_camera", Help = "Display Camera Stats", Hint = "stat_actors <0|1>", ArgMin = 1, ArgMax = 1)]
+        static void CommandStatCamera(CommandArg[] args)
+        {
+            switch (args[0].Int)
+            {
+                case 0:
+                    SXLConsole.Instance.Performance.ToggleCameraInfo(false);
+                    break;
+                case 1:
+                    SXLConsole.Instance.Performance.ToggleCameraInfo(true);
                     break;
                 default:
                     break;

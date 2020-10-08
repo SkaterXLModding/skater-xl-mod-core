@@ -18,15 +18,12 @@ namespace SXLMod
     {
         // Create Global References Here
         private SXLConsole developerConsole;
-        public SXLTwitchClient twitchClient;
 
         public void Create()
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             this.developerConsole = this.gameObject.AddComponent<SXLConsole>();
-            this.twitchClient = this.gameObject.AddComponent<SXLTwitchClient>();
-            this.gameObject.AddComponent<TwitchClientExample>();
 
             Debug.Log("Created SXL Mod Manager");
         }

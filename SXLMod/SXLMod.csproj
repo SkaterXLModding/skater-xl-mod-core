@@ -162,7 +162,6 @@
     <Compile Include="Twitch\SXLTwitchChat.cs" />
     <Compile Include="Twitch\SXLTwitchCommands.cs" />
     <Compile Include="Twitch\SXLTwitchClient.cs" />
-    <Compile Include="Twitch\TwitchClientExample.cs" />
     <Compile Include="Utilities\SXLCoreUtilities.cs" />
     <Compile Include="Utilities\SXLFileWatcher.cs" />
     <Compile Include="Utilities\SXLSingleton.cs" />
