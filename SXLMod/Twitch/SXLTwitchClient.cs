@@ -50,11 +50,10 @@ namespace SXLMod.Twitch
         private void InvokeClientEvents()
         {
             _client.OnConnected += OnConnected;
-            _client.OnDisconnected += OnDisconnect;
             _client.OnConnectionError += OnConnectionError;
             _client.OnIncorrectLogin += OnIncorrectLogin;
             _client.OnMessageReceived += OnMessageReceived;
-            _client.OnChatCommandReceived += SXLTwitchChat.HandleChatCommand;
+            _client.OnChatCommandReceived += OnChatCommandReceived;
         }
 
         private bool ValidateTwitchConfiguration(SXLConfiguration config)
@@ -64,7 +63,7 @@ namespace SXLMod.Twitch
                 Debug.Log("Twitch Credentials Validated");
                 return true;
             }
-            Debug.Log("Twitch Crecentials are not valid.");
+            Debug.Log("Twitch Credentials are not valid.");
             return false;
         }
 
@@ -98,6 +97,11 @@ namespace SXLMod.Twitch
         {
             Debug.Log("MESSAGE");
             Debug.Log(e.ChatMessage.Message);
+        }
+
+        private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
+        {
+            Debug.Log(e.Command.CommandText);
         }
 
     }

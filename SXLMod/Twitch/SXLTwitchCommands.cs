@@ -15,7 +15,6 @@ namespace SXLMod.Twitch
             {"!bail", () => PlayerController.Instance.DoBail() },
             {"bail", () => PlayerController.Instance.DoBail() }
         };
-
         /*
         [RegisterCommand(Name = "twitch", Help = "Connect your twitch bot to your live chat", Hint = "twitch <connect|disconnect>", ArgMin = 1, ArgMax = 1)]
         static void CommandTwitch(CommandArg[] args)
