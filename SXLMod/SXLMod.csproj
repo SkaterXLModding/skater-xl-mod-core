@@ -48,9 +48,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="TwitchLib.Unity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>S:\TwitchLib\TwitchLib.Unity\bin\Release\netstandard2.0\TwitchLib.Unity.dll</HintPath>
+    <Reference Include="TwitchLib.Unity">
+      <HintPath>S:\TwitchLib\TwitchLib.Unity\bin\Release\net48\TwitchLib.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
@@ -165,9 +164,6 @@
     <Compile Include="IO\SXLObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\SXLRenderPipeline.cs" />
-    <Compile Include="Twitch\SXLTwitchChat.cs" />
-    <Compile Include="Twitch\SXLTwitchCommands.cs" />
-    <Compile Include="Twitch\SXLTwitchClient.cs" />
     <Compile Include="Utilities\SXLCoreUtilities.cs" />
     <Compile Include="Utilities\SXLFileWatcher.cs" />
     <Compile Include="Utilities\SXLSingleton.cs" />
