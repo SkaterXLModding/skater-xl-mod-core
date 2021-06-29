@@ -46,11 +46,15 @@
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SkaterXL.Core">
+      <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\SkaterXL.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SkaterXL.TrickDetection">
+      <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\SkaterXL.TrickDetection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="TwitchLib.Unity">
-      <HintPath>S:\TwitchLib\TwitchLib.Unity\bin\Release\net48\TwitchLib.Unity.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
       <Private>False</Private>
@@ -69,6 +73,10 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.TextMeshPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualEffectGraph.Runtime">
@@ -151,6 +159,7 @@
     <Compile Include="Customization\SXLClothing.cs" />
     <Compile Include="Customization\SXLCustomization.cs" />
     <Compile Include="Customization\SXLPlayer.cs" />
+    <Compile Include="Customization\SXLSettings.cs" />
     <Compile Include="Customization\SXLSkateboard.cs" />
     <Compile Include="Debug\SXLDebug.cs" />
     <Compile Include="Debug\SXLMovementTracer.cs" />

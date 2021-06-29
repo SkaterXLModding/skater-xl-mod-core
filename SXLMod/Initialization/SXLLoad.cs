@@ -17,6 +17,8 @@ namespace SXL.Main
         public static Harmony instance;
         public static UnityModManager.ModEntry modEntry;
 
+        public static bool enabled;
+
         /// <summary>
         /// Unity Mod Manager Load function
         /// </summary>
@@ -34,6 +36,7 @@ namespace SXL.Main
 
         public static bool OnToggle(UnityModManager.ModEntry modEntry, bool value)
         {
+            enabled = value;
             if (value)
             {
                 instance = new Harmony(modEntry.Info.Id);

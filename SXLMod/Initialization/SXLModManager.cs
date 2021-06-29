@@ -23,6 +23,7 @@ namespace SXLMod
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             this.developerConsole = this.gameObject.AddComponent<SXLConsole>();
+            
             Debug.Log("Created SXL Mod Manager");
         }
 

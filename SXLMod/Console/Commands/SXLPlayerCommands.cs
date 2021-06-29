@@ -10,12 +10,23 @@ namespace SXLMod.Console
     class SXLPlayerCommands
     {
         private static readonly Camera MAIN_CAMERA = Camera.main;
-        private static Camera POV_CAMERA;
         private static readonly float LOWPOP = PlayerController.Instance.popForce;
         private static readonly float HIGHPOP = PlayerController.Instance.highPopForce;
         private static readonly float POPOUT = PlayerController.Instance.popOutMultiplier;
         private static readonly JointDrive frontTruck = PlayerController.Instance.boardController.frontTruckJoint.angularXDrive;
         private static readonly JointDrive backTruck = PlayerController.Instance.boardController.backTruckJoint.angularXDrive;
+
+        [RegisterCommand(Name = "p_realistic", Help = "Enable / Disable Realistic Mode", Hint = "p_realistic <0 | 1>", ArgMin = 1, ArgMax = 1)]
+        static void CommandRealisticMode(CommandArg[] args)
+        {
+            SXLPlayer.SetRealisticMode(args[0].Int == 0 ? false : true);
+        }
+
+        [RegisterCommand(Name = "p_delaypop", Help = "Enable / Disable pop delay", Hint = "p_delaypop <0|1>", ArgMin = 1, ArgMax = 1)]
+        static void CommandDelayPop(CommandArg[] args)
+        {
+            SXLPlayer.SetPopDelayed(args[0].Int == 0 ? false : true);
+        }
 
         [RegisterCommand(Name = "p_pop", Help = "Sets board low pop and high pop values", Hint = "p_pop <float> <float>", ArgMin = 1, ArgMax = 2)]
         static void CommandPop(CommandArg[] args)
@@ -54,10 +65,16 @@ namespace SXLMod.Console
             SXLPlayer.SetTruckTightness(args[0].Float);
         }
 
-        [RegisterCommand(Name = "p_fpv", Help = "Enable/Disable First Person Mode and set FOV", Hint = "p_fpv <0|1> <float>", ArgMin = 1, ArgMax =2)]
+        [RegisterCommand(Name  = "p_fov", Help = "Player Field Of View", Hint = "p_fov <float>", ArgMin = 1, ArgMax = 1)]
+        static void CommandFOV(CommandArg[] args)
+        {
+            SXLPlayer.SetPlayerFOV(args[0].Float);
+        }
+
+        [RegisterCommand(Name = "p_fpv", Help = "Enable/Disable First Person Mode and set FOV", Hint = "p_fpv <0|1> <float> <float>", ArgMin = 1, ArgMax = 3)]
         static void CommandPOV(CommandArg[] args)
         {
-            SXLPlayer.SetPlayerView(args[0].Int, args.Length == 2 ? args[1].Float : 72f);
+            SXLPlayer.SetPlayerView(args[0].Int, args.Length >= 2 ? args[1].Float : 72f, args.Length == 3 ? args[2].Float : 0.0f);
         }
     }
 }

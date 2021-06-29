@@ -61,7 +61,7 @@ namespace SXLMod.Console
                         }
                         catch (Exception e)
                         {
-
+                            Debug.LogError(e);
                         }
                     }
                     Debug.Log("======================");
