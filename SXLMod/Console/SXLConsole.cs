@@ -105,6 +105,16 @@ namespace SXLMod.Console
             Log(TerminalLogType.SHELL, format, message);
         }
 
+        public static void LogWarning(string format, params object[] message)
+        {
+            Log(TerminalLogType.WARNING, format, message);
+        }
+
+        public static void LogError(string format, params object[] message)
+        {
+            Log(TerminalLogType.ERROR, format, message);
+        }
+
         public static void Log(TerminalLogType type, string format, params object[] message)
         {
             Buffer.HandleLog(string.Format(format, message), type);
@@ -179,17 +189,11 @@ namespace SXLMod.Console
             Shell = new CommandShell();
             History = new CommandHistory();
             Autocomplete = new CommandAutoComplete();
-
-            Debug.unityLogger.logEnabled = true;
-
-            // Hook up unity log events
-            Application.logMessageReceivedThreaded += HandleUnityLog;
         }
 
         void OnDisable()
         {
-            Debug.unityLogger.logEnabled = false;
-            Application.logMessageReceivedThreaded -= HandleUnityLog;
+
         }
 
         void Start()
@@ -490,7 +494,7 @@ namespace SXLMod.Console
             this.editorState.MoveCursorToPosition(new Vector2(999, 999));
         }
 
-        void HandleUnityLog(string message, string stackTrace, LogType type)
+        public void HandleUnityLog(string message, string stackTrace, LogType type)
         {
             Buffer.HandleLog(message, stackTrace, (TerminalLogType)type);
             this.scrollPosition.y = int.MaxValue;

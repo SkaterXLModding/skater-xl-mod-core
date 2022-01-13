@@ -29,7 +29,7 @@ namespace SXLMod.Console
             }
             else
             {
-                Debug.Log($"{info.name} is not a custom map. Hot Reload is not Enabled.");
+                SXLConsole.Log($"{info.name} is not a custom map. Hot Reload is not Enabled.");
             }
         }
 
@@ -54,7 +54,7 @@ namespace SXLMod.Console
                 }
                 else
                 {
-                    Debug.Log($"Argument {args[0].ToString()} is not a valid argument.");
+                    SXLConsole.Log($"Argument {args[0].ToString()} is not a valid argument.");
                     return;
                 }
             }

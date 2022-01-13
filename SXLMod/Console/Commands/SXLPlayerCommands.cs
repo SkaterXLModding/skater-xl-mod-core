@@ -56,7 +56,7 @@ namespace SXLMod.Console
         [RegisterCommand(Name = "p_position", Help = "Returns the player position as a vector", Hint = "p_position", ArgMin = 0, ArgMax = 0)]
         static void CommandPlayerPosition(CommandArg[] args)
         {
-            Debug.Log(PlayerController.Instance.transform.position);
+            SXLConsole.Log(PlayerController.Instance.transform.position.ToString());
         }
 
         [RegisterCommand(Name = "p_trucks", Help = "Sets truck tightness value", Hint = "p_trucks <float>", ArgMin = 1, ArgMax = 1)]
@@ -74,7 +74,15 @@ namespace SXLMod.Console
         [RegisterCommand(Name = "p_fpv", Help = "Enable/Disable First Person Mode and set FOV", Hint = "p_fpv <0|1> <float> <float>", ArgMin = 1, ArgMax = 3)]
         static void CommandPOV(CommandArg[] args)
         {
-            SXLPlayer.SetPlayerView(args[0].Int, args.Length >= 2 ? args[1].Float : 72f, args.Length == 3 ? args[2].Float : 0.0f);
+            int viewMode = args[0].Int == 1 ? 1 : 0;
+            SXLPlayer.SetPlayerView(viewMode, args.Length >= 2 ? args[1].Float : 72f, args.Length == 3 ? args[2].Float : 0.0f);
+        }
+
+        [RegisterCommand(Name = "p_fpvr", Help = "Enable/Disable First Person Mode and set FOV", Hint = "p_fpvr <0|1> <float> <float>", ArgMin = 1, ArgMax = 3)]
+        static void COMMANDVRPOV(CommandArg[] args)
+        {
+            int viewMode = args[0].Int == 1 ? 2 : 0;
+            SXLPlayer.SetPlayerView(viewMode, args.Length >= 2 ? args[1].Float : 72f, args.Length == 3 ? args[2].Float : 0.0f);
         }
     }
 }

@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 using SXLMod;
+using SXLMod.Console;
 using GameManagement;
 
 using SkaterXL.Core;
@@ -44,7 +45,6 @@ namespace SXL.Main
     {
         private static bool Prefix()
         {
-            Debug.Log("Playerstate_Released.Update");
             bool realisticMode = SXLMod.Customization.SXLSettings.realisticMode;
             if ((!realisticMode || !SXLRuntime.enabled ? 0 : realisticMode ? 1 : 0) != 0) 
             {
@@ -62,8 +62,7 @@ namespace SXL.Main
         {
             if ((!SXLRuntime.enabled ? 0 : (SXLMod.Customization.SXLSettings.realisticMode ? 1 : 0)) == 0)
                 return;
-
-            Debug.Log("StickInput.OnStickPressed");
+            
             float boardZ = PlayerController.Instance.boardController.boardRigidbody.transform.localEulerAngles.z;
             float skaterZ = PlayerController.Instance.skaterController.skaterRigidbody.transform.localEulerAngles.z;
             double num2 = skaterZ;
@@ -75,7 +74,16 @@ namespace SXL.Main
             PlayerController.Instance.CrossFadeAnimation("Fall", 2.1f);
         }
     }
-
+    
+    [HarmonyPatch(typeof(PlayerController), "OnPop", new Type[] { typeof(float), typeof(float), typeof(Vector3) })]
+    internal class SXLPlayerController_OnPop_Patch
+    {
+        private static void Prefix(ref float p_pop, float p_scoop, Vector3 p_popOutDir)
+        {
+            // This version of OnPop only gets called when grinding.
+            p_pop *= PlayerController.Instance.popOutMultiplier;
+        }
+    }
 
     #endregion
 
@@ -85,7 +93,6 @@ namespace SXL.Main
     {
         static void Postfix(ref Grind.GrindSegment __instance)
         {
-            Debug.Log("I'm in the constructor");
             __instance.isSwitch = PlayerController.Instance.IsSwitch;
         }
     }

@@ -15,6 +15,17 @@ namespace SXLMod
 {
     public static class SXLCoreUtilities
     {
+        public static bool GetLaunchArg(string name)
+        {
+            string[] args = System.Environment.GetCommandLineArgs();
+            foreach (string arg in args)
+            {
+                if (arg == name)
+                    return true;
+            }
+            return false;
+        }
+
         public static IEnumerator<UnityEngine.WaitUntil> TakeDevScreenshot(string filePath, bool isMap=false)
         {
             SXLConsoleState current = SXLConsole.Instance.CurrentState;
@@ -30,6 +41,13 @@ namespace SXLMod
             {
                 LevelManager manager = LevelManager.Instance;
                 manager.currentLevel.previewImage = SXLFile.LoadImageFromFile(filePath);}
+        }
+
+        public static Canvas GetMainCanvas()
+        {
+            Canvas canvas = MonoBehaviourSingleton<GameStateMachine>.Instance.PauseObject.GetComponentInParent<Canvas>();
+            SXLConsole.Log($"Canvas Name: {canvas.name}");
+            return canvas;
         }
     }
 }

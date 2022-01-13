@@ -16,7 +16,7 @@ namespace SXLMod.Console
             Type currentState = GameManagement.GameStateMachine.Instance.CurrentState.GetType();
             if (currentState != typeof(GameManagement.ReplayState))
             {
-                Debug.LogWarning("Can not set camera bookmark outside of replay mode.");
+                SXLConsole.LogWarning("Can not set camera bookmark outside of replay mode.");
                 return;
             }
 
@@ -31,7 +31,7 @@ namespace SXLMod.Console
                         for(int i=0; i < SXLReplayCommands.m_replayCameraBookmarks.Count(); i++)
                         {
                             Tuple<Vector3, Quaternion, float> item = SXLReplayCommands.m_replayCameraBookmarks.ElementAt(i);
-                            Debug.Log($"{i}: Transform: {item.Item1} | Rotation: {item.Item2} | FOV: {item.Item3}");
+                            SXLConsole.Log($"{i}: Transform: {item.Item1} | Rotation: {item.Item2} | FOV: {item.Item3}");
                         }
                     }
                     else if (command == "add")
@@ -40,11 +40,11 @@ namespace SXLMod.Console
                         {
                             Camera cam = Camera.main;
                             SXLReplayCommands.m_replayCameraBookmarks.Add(new Tuple<Vector3, Quaternion, float>(cam.gameObject.transform.position, cam.gameObject.transform.rotation, cam.fieldOfView));
-                            Debug.Log($"Set Camera Bookmark at Index {SXLReplayCommands.m_replayCameraBookmarks.Count() - 1}");
+                            SXLConsole.Log($"Set Camera Bookmark at Index {SXLReplayCommands.m_replayCameraBookmarks.Count() - 1}");
                         }
                         else
                         {
-                            Debug.LogWarning("Camera is not in FREE mode.");
+                            SXLConsole.LogWarning("Camera is not in FREE mode.");
                         }
                     }
                     else if (command == "clear")
@@ -66,16 +66,16 @@ namespace SXLMod.Console
                                 cam.gameObject.transform.position = currentIdx.Item1;
                                 cam.gameObject.transform.rotation = currentIdx.Item2;
                                 cam.fieldOfView = currentIdx.Item3;
-                                Debug.Log($"Set Camera to bookmark at index {index}.");
+                                SXLConsole.Log($"Set Camera to bookmark at index {index}.");
                             }
                             catch (ArgumentOutOfRangeException)
                             {
-                                Debug.LogWarning("Bookmark at index {index} is out of range or does not exist.");
+                                SXLConsole.LogWarning("Bookmark at index {index} is out of range or does not exist.");
                             }
                         }
                         else
                         {
-                            Debug.LogWarning("Camera is not in FREE mode.");
+                            SXLConsole.LogWarning("Camera is not in FREE mode.");
                         }
                     }
                     else if (command == "remove")
@@ -83,11 +83,11 @@ namespace SXLMod.Console
                         try
                         {
                             SXLReplayCommands.m_replayCameraBookmarks.RemoveAt(index);
-                            Debug.Log($"Removed Camera bookmark at index {index}.");
+                            SXLConsole.Log($"Removed Camera bookmark at index {index}.");
                         }
                         catch (ArgumentOutOfRangeException)
                         {
-                            Debug.LogWarning("Bookmark at index {index} is out of range or does not exist.");
+                            SXLConsole.LogWarning("Bookmark at index {index} is out of range or does not exist.");
                         }
 
                     }

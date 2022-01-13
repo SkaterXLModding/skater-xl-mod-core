@@ -19,8 +19,8 @@ namespace SXLMod.Console
             {
                 foreach (VolumeComponent component in v.profile.components)
                 {
-                    Debug.Log(component.displayName);
-                    Debug.Log(component.name);
+                    SXLConsole.Log(component.displayName);
+                    SXLConsole.Log(component.name);
                     if (ppNames.Contains(component.displayName.ToLower()))
                     {
                         continue;
@@ -50,21 +50,21 @@ namespace SXLMod.Console
                 foreach (VolumeComponent component in v.profile.components)
                 {
                     Type componentType = component.GetType();
-                    Debug.Log($"Component: {componentType}");
-                    Debug.Log("----------------------");
+                    SXLConsole.Log($"Component: {componentType}");
+                    SXLConsole.Log("----------------------");
                     foreach(VolumeParameter attr in component.parameters)
                     {
-                        Debug.Log(attr.GetType().ToString());
+                        SXLConsole.Log(attr.GetType().ToString());
                         try
                         {
-                            Debug.Log($"Attribute:Value: {attr.ToString()} | Type: {attr.GetType()}");
+                            SXLConsole.Log($"Attribute:Value: {attr.ToString()} | Type: {attr.GetType()}");
                         }
                         catch (Exception e)
                         {
-                            Debug.LogError(e);
+                            SXLConsole.LogError(e.ToString());
                         }
                     }
-                    Debug.Log("======================");
+                    SXLConsole.Log("======================");
                 }
             }
         }

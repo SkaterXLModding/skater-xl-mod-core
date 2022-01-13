@@ -10,6 +10,22 @@ namespace SXLMod.Console
 {
     class SXLDebugCommands
     {
+        [RegisterCommand(Name = "d_unitylog", Help = "Enables the logger to capture the Unity Logger", Hint = "d_unitylog <0|1>", ArgMin = 1, ArgMax = 1)]
+        static void CommandSetUnityLog(CommandArg[] args)
+        {
+            switch(args[0].Int)
+            {
+                case 0:
+                    Debug.unityLogger.logEnabled = false;
+                    Application.logMessageReceivedThreaded -= SXLConsole.Instance.HandleUnityLog;
+                    break;
+                case 1:
+                    Debug.unityLogger.logEnabled = true;
+                    Application.logMessageReceivedThreaded += SXLConsole.Instance.HandleUnityLog;
+                    break;
+            }
+        }
+
         [RegisterCommand(Name = "d_dumptextures", Help = "Dump texture data tied to Renderer objects loaded in the scene", Hint = "d_texture", ArgMax = 0)]
         static void CommandDumpTextureData(CommandArg[] args)
         {
@@ -38,7 +54,7 @@ namespace SXLMod.Console
 
             foreach (var texture in orderedTex)
             {
-                Debug.Log($"{texture.Item1} {texture.Item2}x{texture.Item3}");
+                SXLConsole.Log($"{texture.Item1} {texture.Item2}x{texture.Item3}");
             }
 
             List<string> totals = new List<string>();
@@ -46,7 +62,7 @@ namespace SXLMod.Console
             {
                 totals.Add($"{tuple.Key}x{tuple.Key} - {tuple.Value}");
             }
-            Debug.Log($"<b>TOTAL</b>: {string.Join(" | ", totals)}");
+            SXLConsole.Log($"<b>TOTAL</b>: {string.Join(" | ", totals)}");
         }
 
         [RegisterCommand(Name = "d_tracemovement", Help = "Visualize player movement over time", Hint = "d_tracemovement <0|1>", ArgMin = 1, ArgMax = 1)]

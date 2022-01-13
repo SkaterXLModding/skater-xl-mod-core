@@ -6,12 +6,13 @@ namespace SXLMod.Customization
 {
     public static class SXLPlayer
     {
-        private static Camera POV_CAMERA;
+        private static POVCameraController POV_CONTROLLER;
         private static Camera MAIN_CAMERA;
 
         public static void SetRealisticMode(bool value)
         {
             SXLFile.GetConfigFile().Write("p_realistic", value.ToString(), "player");
+            SXLSettings.realisticMode = value;
         }
 
         public static void SetPopDelayed(bool value)
@@ -55,43 +56,56 @@ namespace SXLMod.Customization
             SXLSettings.truckTightness = value;
         }
 
+        private static POVCameraController SetupCameraController(HeadIK headIK, float offset=0f)
+        {
+            GameObject pov = new GameObject("POV_Camera");
+            pov.transform.parent = headIK.head.gameObject.transform;
+
+            Camera camera = pov.AddComponent<Camera>();
+            camera.nearClipPlane = 0.15f;
+            camera.depth = 999;
+            POVCameraController controller = pov.AddComponent<POVCameraController>();
+            controller.povCam = camera;
+            pov.transform.position = headIK.head.position + new Vector3(0f, offset, 0f);
+            pov.transform.rotation = headIK.head.rotation * Quaternion.Euler(new Vector3(-100f, 13f, 43f));
+            pov.transform.localRotation = pov.transform.localRotation * Quaternion.Euler(new Vector3(20f, 0f, 50f));
+
+            return controller;
+        }
+
         public static void SetPlayerView(int value, float fov, float headOffset)
         {
+            HeadIK headIK = Object.FindObjectOfType<HeadIK>();
+            // POV camera
+            if (POV_CONTROLLER == null)
+            {
+                POV_CONTROLLER = SetupCameraController(headIK, headOffset);
+            }
+
             if (value == 1)
             {
+                POV_CONTROLLER.gameObject.transform.position = headIK.head.position + new Vector3(0f, headOffset, 0f);
+                POV_CONTROLLER.povCam.fieldOfView = fov;
+                POV_CONTROLLER.SetViewMode(POVCameraController.ViewMode.FPV);
 
-                HeadIK headIK = UnityEngine.Object.FindObjectOfType<HeadIK>();
-                // POV camera
-                if (POV_CAMERA == null)
-                {
 
-                    GameObject pov = new GameObject("POV_Camera");
-                    pov.transform.parent = headIK.head.gameObject.transform;
-
-                    POV_CAMERA = pov.AddComponent<Camera>();
-                    POV_CAMERA.nearClipPlane = 0.15f;
-                    POV_CAMERA.depth = 999;
-                    POVCameraController povCC = pov.AddComponent<POVCameraController>();
-                    povCC.povCam = POV_CAMERA;
-                    pov.transform.position = headIK.head.position + new Vector3(0f, headOffset, 0f);
-                    pov.transform.rotation = headIK.head.rotation * Quaternion.Euler(new Vector3(-100f, 13f, 43f));
-                    pov.transform.localRotation = pov.transform.localRotation * Quaternion.Euler(new Vector3(20f, 0f, 50f));
-                    POV_CAMERA.fieldOfView = fov;
-                    SXLSettings.firstPersonViewFOV = fov;
-                    POV_CAMERA.enabled = true;
-                    return;
-
-                }
-                POV_CAMERA.gameObject.transform.position = headIK.head.position + new Vector3(0f, headOffset, 0f);
-                POV_CAMERA.fieldOfView = fov;
-                POV_CAMERA.enabled = true;
+                SXLSettings.firstPersonStereoView = false;
                 SXLSettings.firstPersonView = true;
                 SXLSettings.firstPersonViewFOV = fov;
             }
+            else if (value == 2)
+            {
+                POV_CONTROLLER.gameObject.transform.position = headIK.head.position + new Vector3(0f, headOffset, 0f);
+                POV_CONTROLLER.SetViewMode(POVCameraController.ViewMode.STEREO);
+                
+                SXLSettings.firstPersonView = false;
+                SXLSettings.firstPersonStereoView = true;
+            }
             else
             {
-                POV_CAMERA.enabled = false;
+                POV_CONTROLLER.SetViewMode(POVCameraController.ViewMode.DEFAULT);
                 SXLSettings.firstPersonView = false;
+                SXLSettings.firstPersonStereoView = false;
             }
         }
 
@@ -131,7 +145,12 @@ namespace SXLMod.Customization
 
     public class POVCameraController : MonoBehaviour
     {
+        public enum ViewMode { DEFAULT, FPV, STEREO };
+
         public Camera povCam;
+        private Camera leftEyeCam;
+        private Camera rightEyeCam;
+
         private PlayerController pc = PlayerController.Instance;
         private EventManager em = EventManager.Instance;
         HeadIK headIK = UnityEngine.Object.FindObjectOfType<HeadIK>();
@@ -143,6 +162,31 @@ namespace SXLMod.Customization
         private StickInput rightStick;
         float blendAmount = 0.0f;
 
+        public bool isStereoRendering = false;
+
+        void Awake()
+        {
+            GameObject stereoCameraRoot = new GameObject("StereoCameraRoot");
+            stereoCameraRoot.transform.SetParent(this.transform);
+
+            GameObject leftEyeRoot = new GameObject("LeftEye");
+            leftEyeRoot.transform.SetParent(stereoCameraRoot.transform);
+            leftEyeRoot.transform.localPosition -= new Vector3(0.04f, 0f, 0f);
+            leftEyeCam = leftEyeRoot.AddComponent<Camera>();
+            leftEyeCam.rect = new Rect(0, 0, 0.5f, 1);
+            leftEyeCam.enabled = false;
+
+            GameObject rightEyeRoot = new GameObject("RightEye");
+            rightEyeRoot.transform.SetParent(stereoCameraRoot.transform);
+            rightEyeRoot.transform.localPosition += new Vector3(0.04f, 0f, 0f);
+            rightEyeCam = rightEyeRoot.AddComponent<Camera>();
+            rightEyeCam.rect = new Rect(0.5f, 0, 0.5f, 1);
+            rightEyeCam.enabled = false;
+
+            isStereoRendering = false;
+
+        }
+
         void Start()
         {
             InputController ic = InputController.Instance;
@@ -152,13 +196,43 @@ namespace SXLMod.Customization
 
         void Update()
         {
-            if (povCam == null || !povCam.enabled) return;
+           if (povCam == null || !povCam.enabled)
+                return;
 
+           UpdateFPVCamera();
+        }
+        
+        public void SetViewMode(ViewMode mode)
+        {
+            switch (mode)
+            {
+                case ViewMode.FPV:
+                    leftEyeCam.enabled = false;
+                    rightEyeCam.enabled = false;
+                    povCam.enabled = true;
+                    break;
+                case ViewMode.STEREO:
+                    leftEyeCam.enabled = true;
+                    rightEyeCam.enabled = true;
+                    povCam.enabled = false;
+                    break;
+                case ViewMode.DEFAULT:
+                default:
+                    leftEyeCam.enabled = false;
+                    rightEyeCam.enabled = false;
+                    povCam.enabled = false;
+                    break;
+
+            }
+        }
+
+        void UpdateFPVCamera()
+        {
             float rPos = (float)System.Math.Round(rightStick.rawInput.prevPos.y, 3);
             float lPos = (float)System.Math.Round(leftStick.rawInput.prevPos.y, 3);
 
-            if ( pc.popped || !pc.IsGrounded() || !pc.boardController.Grounded ||
-                em.IsInAir || em.IsGrabbing || em.IsGrinding )
+            if (pc.popped || !pc.IsGrounded() || !pc.boardController.Grounded ||
+                em.IsInAir || em.IsGrabbing || em.IsGrinding)
             {
                 blendAmount = 1.0f;
             }
@@ -167,9 +241,9 @@ namespace SXLMod.Customization
                 blendAmount = lPos > 0.0f ? lPos : rPos < 0.0f ? Mathf.Abs(rPos) : 0.0f;
             }
             Vector3 cameraRotationOffset = Vector3.Lerp(pushingVectorOffset, Vector3.zero, blendAmount);
-            GameObject pov = povCam.gameObject;
-            pov.transform.rotation = headIK.head.rotation * Quaternion.Euler(new Vector3(-100f, 13f, 43f));
-            pov.transform.localRotation = pov.transform.localRotation * Quaternion.Euler(new Vector3(20f, 0f, 50f) + cameraRotationOffset);
+            GameObject root = this.gameObject;
+            root.transform.rotation = headIK.head.rotation * Quaternion.Euler(new Vector3(-100f, 13f, 43f));
+            root.transform.localRotation = root.transform.localRotation * Quaternion.Euler(new Vector3(20f, 0f, 50f) + cameraRotationOffset);
         }
 
         IEnumerator FadeCamera(float fadeTime)

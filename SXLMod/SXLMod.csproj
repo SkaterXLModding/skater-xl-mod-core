@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,12 +47,27 @@
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BFSUtilities">
+      <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\BFSUtilities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PhotonUnityNetworking">
+      <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\PhotonUnityNetworking.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="SkaterXL.Core">
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\SkaterXL.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="SkaterXL.TrickDetection">
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\SkaterXL.TrickDetection.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="SteamVR">
+      <HintPath>S:\SkaterXL\Resources\SteamVR.dll</HintPath>
+    </Reference>
+    <Reference Include="SteamVR_Actions">
+      <HintPath>S:\SkaterXL\Resources\SteamVR_Actions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -123,6 +139,10 @@
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.SubsystemsModule">
+      <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.SubsystemsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
@@ -139,13 +159,24 @@
       <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.UIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.VRModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>D:\Programs\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.XRModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityModManager">
       <HintPath>S:\SkaterXL\UnityModManager\UnityModManager.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviours\SXLMultiplayerSpectator.cs" />
     <Compile Include="Console\Commands\SXLAudioCommands.cs" />
+    <Compile Include="Console\Commands\SXLCameraCommands.cs" />
+    <Compile Include="Console\Commands\SXLMultiplayerCommands.cs" />
     <Compile Include="Console\Commands\SXLReplayCommands.cs" />
     <Compile Include="Console\Commands\SXLCoreCommands.cs" />
     <Compile Include="Console\Commands\SXLDebugCommands.cs" />
@@ -156,8 +187,10 @@
     <Compile Include="Console\SXLConsole.cs" />
     <Compile Include="Console\SXLConsoleLogic.cs" />
     <Compile Include="Console\SXLConsoleShell.cs" />
+    <Compile Include="Customization\SXLCamera.cs" />
     <Compile Include="Customization\SXLClothing.cs" />
     <Compile Include="Customization\SXLCustomization.cs" />
+    <Compile Include="Customization\SXLMultiplayer.cs" />
     <Compile Include="Customization\SXLPlayer.cs" />
     <Compile Include="Customization\SXLSettings.cs" />
     <Compile Include="Customization\SXLSkateboard.cs" />
@@ -168,6 +201,7 @@
     <Compile Include="Initialization\SXLLoad.cs" />
     <Compile Include="Initialization\SXLModManager.cs" />
     <Compile Include="Initialization\SXLPatches.cs" />
+    <Compile Include="Initialization\SXLVR.cs" />
     <Compile Include="IO\SXLConfiguration.cs" />
     <Compile Include="IO\SXLFile.cs" />
     <Compile Include="IO\SXLObj.cs" />
@@ -177,9 +211,25 @@
     <Compile Include="Utilities\SXLFileWatcher.cs" />
     <Compile Include="Utilities\SXLSingleton.cs" />
     <Compile Include="Utilities\SXLSkinning.cs" />
+    <Compile Include="XR\com.unity.xr.management%403.2.15\Runtime\IXRLoaderPreInit.cs" />
+    <Compile Include="XR\com.unity.xr.management%403.2.15\Runtime\XRConfigurationData.cs" />
+    <Compile Include="XR\com.unity.xr.management%403.2.15\Runtime\XRGeneralSettings.cs" />
+    <Compile Include="XR\com.unity.xr.management%403.2.15\Runtime\XRLoader.cs" />
+    <Compile Include="XR\com.unity.xr.management%403.2.15\Runtime\XRLoaderHelper.cs" />
+    <Compile Include="XR\com.unity.xr.management%403.2.15\Runtime\XRManagerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="XR\com.unity.xr.management%403.2.15\Runtime\IXRLoaderPreInit.cs.meta" />
+    <None Include="XR\com.unity.xr.management%403.2.15\Runtime\Unity.XR.Management.asmdef" />
+    <None Include="XR\com.unity.xr.management%403.2.15\Runtime\Unity.XR.Management.asmdef.meta" />
+    <None Include="XR\com.unity.xr.management%403.2.15\Runtime\XRConfigurationData.cs.meta" />
+    <None Include="XR\com.unity.xr.management%403.2.15\Runtime\XRGeneralSettings.cs.meta" />
+    <None Include="XR\com.unity.xr.management%403.2.15\Runtime\XRLoader.cs.meta" />
+    <None Include="XR\com.unity.xr.management%403.2.15\Runtime\XRLoaderHelper.cs.meta" />
+    <None Include="XR\com.unity.xr.management%403.2.15\Runtime\XRManagerSettings.cs.meta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
